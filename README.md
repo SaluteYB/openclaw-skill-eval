@@ -1,6 +1,10 @@
 # skill-eval for OpenClaw
 
-A small open-source AgentSkill for evaluating other skills.
+[![Release](https://img.shields.io/github/v/release/SaluteYB/openclaw-skill-eval)](https://github.com/SaluteYB/openclaw-skill-eval/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/SaluteYB/openclaw-skill-eval/package-skill.yml?branch=main&label=package)](https://github.com/SaluteYB/openclaw-skill-eval/actions/workflows/package-skill.yml)
+
+A small open-source AgentSkill for **evaluating other skills**.
 
 `skill-eval` helps you move from "this skill feels okay" to a lightweight, repeatable evaluation workflow:
 
@@ -11,6 +15,8 @@ A small open-source AgentSkill for evaluating other skills.
 - short regression logs
 
 It is designed for OpenClaw / Codex-style skill workflows, but the evaluation structure is general enough to adapt elsewhere.
+
+中文说明见：[README.zh-CN.md](./README.zh-CN.md)
 
 ## Why this exists
 
@@ -24,7 +30,7 @@ This skill gives you a compact structure for checking both.
 ## Repository layout
 
 ```text
-skill-eval-openclaw/
+openclaw-skill-eval/
 ├── skill-eval/
 │   ├── SKILL.md
 │   ├── references/
@@ -36,6 +42,7 @@ skill-eval-openclaw/
 │           ├── boundary-cases.md
 │           ├── execution-checklist.md
 │           └── evaluation-log.md
+├── .github/workflows/
 ├── README.md
 ├── README.zh-CN.md
 ├── LICENSE
@@ -65,7 +72,39 @@ Use `skill-eval` when creating or improving another skill and you want to:
 7. Re-test a representative subset.
 8. Log what changed.
 
-## Packaging
+## Quick example
+
+Suppose you are refining a `video-subtitle` skill.
+
+### should-trigger
+
+- "Shift this SRT back by 1.2 seconds."
+- "Clean this subtitle file and merge broken lines."
+- "Convert this VTT into a clean SRT."
+
+### should-not-trigger
+
+- "Compress this MP4 to under 50MB."
+- "Organize these clips into camera/date folders."
+- "Write three YouTube titles for this video."
+
+### boundary case
+
+- "Extract audio from this interview and prepare it for subtitles."
+  - Likely winner: `video-subtitle`
+  - Why: the main artifact is subtitle/transcript preparation, not general export delivery.
+
+## Installation
+
+### Option A: download the packaged `.skill`
+
+Download the latest `skill-eval.skill` from the [Releases](https://github.com/SaluteYB/openclaw-skill-eval/releases) page.
+
+### Option B: use the repo directly
+
+Copy the `skill-eval/` folder into your skills directory or local workspace skills collection.
+
+## Packaging locally
 
 If you have the OpenClaw `skill-creator` packaging scripts available, package it with:
 
@@ -74,6 +113,12 @@ python3 /usr/local/lib/node_modules/openclaw/skills/skill-creator/scripts/packag
 ```
 
 That should produce a `.skill` archive in `dist/`.
+
+## Roadmap
+
+- richer example packs for common skill categories
+- optional score sheet / pass-fail rubric
+- example evaluation folders for real skills
 
 ## License
 

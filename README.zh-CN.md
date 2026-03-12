@@ -1,5 +1,9 @@
 # OpenClaw 的 skill-eval
 
+[![Release](https://img.shields.io/github/v/release/SaluteYB/openclaw-skill-eval)](https://github.com/SaluteYB/openclaw-skill-eval/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/SaluteYB/openclaw-skill-eval/package-skill.yml?branch=main&label=package)](https://github.com/SaluteYB/openclaw-skill-eval/actions/workflows/package-skill.yml)
+
 一个用于**评估其他技能**的小型开源 AgentSkill。
 
 `skill-eval` 的目标，是把“这个 skill 看起来还行”变成一套**轻量、可重复、可回归**的评估流程：
@@ -11,6 +15,8 @@
 - 简短回归日志
 
 它面向 OpenClaw / Codex 风格的 skill 工作流设计，但整体结构也可以迁移到别的 AgentSkill 体系里。
+
+English version: [README.md](./README.md)
 
 ## 为什么要做这个
 
@@ -24,7 +30,7 @@
 ## 仓库结构
 
 ```text
-skill-eval-openclaw/
+openclaw-skill-eval/
 ├── skill-eval/
 │   ├── SKILL.md
 │   ├── references/
@@ -36,6 +42,7 @@ skill-eval-openclaw/
 │           ├── boundary-cases.md
 │           ├── execution-checklist.md
 │           └── evaluation-log.md
+├── .github/workflows/
 ├── README.md
 ├── README.zh-CN.md
 ├── LICENSE
@@ -67,7 +74,39 @@ skill-eval-openclaw/
 7. 回测一小组代表样本
 8. 记录这一轮改了什么
 
-## 打包
+## 快速示例
+
+假设你正在优化一个 `video-subtitle` skill。
+
+### 应触发
+
+- “把这个 SRT 整体提前 1.2 秒。”
+- “清理这个字幕文件，把断开的句子合并一下。”
+- “把这个 VTT 转成干净的 SRT。”
+
+### 不应触发
+
+- “把这个 MP4 压到 50MB 以内。”
+- “把这批素材按相机和日期整理文件夹。”
+- “给这个视频写 3 个 YouTube 标题。”
+
+### 边界案例
+
+- “把这个采访视频提取音频并准备成可做字幕的格式。”
+  - 预期技能：`video-subtitle`
+  - 原因：核心产物是字幕/转录准备，而不是通用导出。
+
+## 安装方式
+
+### 方案 A：下载 `.skill` 包
+
+直接从 [Releases](https://github.com/SaluteYB/openclaw-skill-eval/releases) 页面下载最新的 `skill-eval.skill`。
+
+### 方案 B：直接使用仓库目录
+
+把 `skill-eval/` 目录复制到你的 skills 目录或本地 skills 集合里。
+
+## 本地打包
 
 如果当前环境里有 OpenClaw 自带的 `skill-creator` 打包脚本，可以这样打包：
 
@@ -76,6 +115,12 @@ python3 /usr/local/lib/node_modules/openclaw/skills/skill-creator/scripts/packag
 ```
 
 正常会在 `dist/` 下生成一个 `.skill` 包。
+
+## 路线图
+
+- 补更多常见 skill 类型的示例评估集
+- 增加可选评分表 / 通过标准
+- 给真实 skill 提供评估示例目录
 
 ## 许可证
 

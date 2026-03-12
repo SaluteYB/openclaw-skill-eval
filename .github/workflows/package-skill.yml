@@ -1,0 +1,34 @@
+name: package-skill
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Download packaging scripts
+        run: |
+          mkdir -p .ci/skill-creator
+          curl -fsSL https://raw.githubusercontent.com/openclaw/openclaw/main/skills/skill-creator/scripts/package_skill.py -o .ci/skill-creator/package_skill.py
+
+      - name: Validate and package skill
+        run: |
+          python .ci/skill-creator/package_skill.py ./skill-eval ./dist
+
+      - name: Upload packaged skill artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: skill-eval-skill-package
+          path: dist/skill-eval.skill
