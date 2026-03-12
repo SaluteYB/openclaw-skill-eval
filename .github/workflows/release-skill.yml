@@ -1,0 +1,37 @@
+name: release-skill
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Download packaging script
+        run: |
+          mkdir -p .ci/skill-creator
+          curl -fsSL https://raw.githubusercontent.com/openclaw/openclaw/main/skills/skill-creator/scripts/package_skill.py -o .ci/skill-creator/package_skill.py
+
+      - name: Package skill
+        run: |
+          python .ci/skill-creator/package_skill.py ./skill-eval ./dist
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/skill-eval.skill
+          generate_release_notes: true

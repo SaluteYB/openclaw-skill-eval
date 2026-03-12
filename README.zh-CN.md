@@ -116,6 +116,17 @@ python3 /usr/local/lib/node_modules/openclaw/skills/skill-creator/scripts/packag
 
 正常会在 `dist/` 下生成一个 `.skill` 包。
 
+## 示例
+
+- [`examples/video-subtitle-eval/`](./examples/video-subtitle-eval/) —— 一个真实示例，展示应触发、不应触发、边界案例和一轮评估日志。
+
+## 自动化
+
+仓库现在包含两条 GitHub Actions 工作流：
+
+- `package-skill.yml` —— 在 push / PR 时自动校验并打包 skill
+- `release-skill.yml` —— 当你推送 `v*` tag 时，自动构建并发布 `skill-eval.skill`
+
 ## 路线图
 
 - 补更多常见 skill 类型的示例评估集

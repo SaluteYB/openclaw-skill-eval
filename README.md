@@ -114,6 +114,17 @@ python3 /usr/local/lib/node_modules/openclaw/skills/skill-creator/scripts/packag
 
 That should produce a `.skill` archive in `dist/`.
 
+## Examples
+
+- [`examples/video-subtitle-eval/`](./examples/video-subtitle-eval/) — a real sample evaluation pack showing trigger cases, non-trigger cases, boundary cases, and one evaluation log.
+
+## Automation
+
+This repository includes two GitHub Actions workflows:
+
+- `package-skill.yml` — validate and package the skill on pushes and pull requests
+- `release-skill.yml` — build and publish `skill-eval.skill` automatically when you push a `v*` tag
+
 ## Roadmap
 
 - richer example packs for common skill categories
